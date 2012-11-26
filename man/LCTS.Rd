@@ -8,7 +8,10 @@
 	test statistic on the combination.
 }
 \usage{
-LCTS(cfs, tsx, tsy, filter.number = 1, family = "DaubExPhase", plot.it = FALSE, spec.filter.number = 1, spec.family = "DaubExPhase")
+LCTS(cfs, tsx, tsy, filter.number = 1,
+	family = c("DaubExPhase", "DaubLeAsymm"), plot.it = FALSE,
+        spec.filter.number = 1,
+	spec.family = c("DaubExPhase", "DaubLeAsymm"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,8 +42,13 @@ LCTS(cfs, tsx, tsy, filter.number = 1, family = "DaubExPhase", plot.it = FALSE, 
 \value{A single number which is the value of the test of stationarity
 	for the combined time series. This is the result of \code{\link{TOSts}}
 	but normalized for the squared coefficient norm}
-\references{`Costationarity and stationarity tests for stock index returns'
-	by Cardinali and Nason.
+
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
 }
 \author{Guy Nason}
 \seealso{\code{\link{findstysols}}, \code{\link{TOSts}},
@@ -52,11 +60,11 @@ LCTS(cfs, tsx, tsy, filter.number = 1, family = "DaubExPhase", plot.it = FALSE, 
 # The combination coefficients: comprised of two vectors each of length 3
 # Note that 3 = 2^2 - 1, vectors need to be of length a power two minus 1 
 #
-#	x2, y2 are two time series
+#	sret, fret are two time series in the package
 #
-\dontrun{data(x2)}
-\dontrun{data(y2)}
-\dontrun{LCTS( c(rnorm(3), rnorm(3)), x2, y2)}
+data(sret)
+data(fret)
+LCTS( c(rnorm(3), rnorm(3)), sret, fret)
 #[1] 1.571728e-13
 #
 # The value of the test statistic is 1.57e-13

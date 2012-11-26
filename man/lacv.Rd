@@ -6,7 +6,9 @@
 	stationary wavelet process. 
 }
 \usage{
-lacv(x, filter.number = 1, family = "DaubExPhase", ...)
+lacv(x, filter.number = 10,
+	family = c("DaubExPhase", "DaubLeAsymm"), smooth.dev=var,
+	AutoReflect=TRUE, lag.max=NULL, smooth.RM=0, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -14,6 +16,15 @@ lacv(x, filter.number = 1, family = "DaubExPhase", ...)
   \item{filter.number}{The wavelet that you wish to compute the LACV
 	with respect to}
   \item{family}{The wavelet family}
+  \item{smooth.dev}{The deviance used in smoothing if running mean smoothing
+	is not used, ie in the call to \code{ewspec}.}
+  \item{AutoReflect}{If TRUE then the spectrum is computed on a boundary-corrected series, overcoming the lack of periodicity in the time series.}
+  \item{lag.max}{The maximum lag that the function computes. If this option
+	is \code{NULL} then the largest possible will be computed and used}
+  \item{smooth.RM}{If this is zero then regular wavelet smoothing of the
+	periodogram will be used. If not zero then running mean smoothing
+	of the periodogram will be used with a bandwidth given by
+	this argument.}
   \item{\dots}{ Additional arguments to the spectrum computation
 	contained within}
 }
@@ -37,7 +48,9 @@ lacv(x, filter.number = 1, family = "DaubExPhase", ...)
 	and then directly transforming it using formula (14) via
 	the autocorrelation wavelet transform.
 }
-\value{A matrix that contains the localized autocovariance.
+\value{An object of class \code{lacv}. This is a list with the following
+	components: \code{lacv} which is a matrix that contains the localized
+	autocovariance.
 	If the original time series was of length T, then the number
 	of rows of the returned matrix is also T, one row for each time
 	point.
@@ -46,65 +59,47 @@ lacv(x, filter.number = 1, family = "DaubExPhase", ...)
 	also the order of the wavelet (smoother wavelets return
 	lacv matrices with larger number of lags). Lag 0 is always
 	the centre column, with negative lags from -K to -1 are
-	the leftmost columns, lags from 1 to K are the rightmost columns.
+	the leftmost columns, lags from 1 to K are the rightmost columns;
+	\code{lacr}: a matrix, with the same dimensions as \code{lacv}
+	but containing the local autocorrelations; \code{date}: the date
+	this function was executed.
 }
-\references{`Costationary and stationarity tests for stock index returns' by Car
-dinali and Nason}
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
+
+Nason, G.P., von Sachs, R. and Kroisandt, G. (2000) Wavelet
+	processes and adaptive estimation of the evolutionary wavelet
+	spectrum. \emph{J. R. Statist. Soc. B}, \bold{62}, 271-292.
+}
 \author{Guy Nason}
-\seealso{\code{ewspec}}
+\seealso{\code{ewspec}, \code{\link{print.lacv}}, \code{\link{plot.lacv}},
+	\code{\link{summary.lacv}}}
 \examples{
 #
 # Generate an AR(1) time series
 #
-vv <- arima.sim(model=list(ar=0.8), n=1024)
+vsim <- arima.sim(model=list(ar=0.8), n=1024)
 #
 # Compute the ACF of this stationary series
 #
-vv.acf <- acf(vv, plot=FALSE)
+vsim.acf <- acf(vsim, plot=FALSE)
 #
 # Compute the localized autocovariance. We'll use
 # a reasonably smooth wavelet.
 #
-\dontrun{vv.lacv <- lacv(vv, filter.number=4)}
+vsim.lacv <- lacv(vsim, filter.number=4, lag.max=30)
 #
-# Various plots of the lacv
+# Now plot the time-varying autocorrelations, only the first 5 lags
 #
-# The whole lacv at time t=100. First work out sizes:
+\dontrun{plot(vsim.lacv, lags=0:5)}
 #
-\dontrun{dim(vv.lacv)}
-# [1] 1024 14323
+# Now plot the localized autocorrelation at time t=100, a plot similar
+# to the usual R acf plot.
 #
-(14323-1)/2
-# [1] 7161
-#
-# So, rows of vv.lacv index time ranging from 1 to 1024
-# Cols index lag ranging from -7161 through to 7161.
-#
-# Now the plot
-#
-\dontrun{plot( -7161:7161, vv.lacv[100,], type="l", xlab="lag", ylab="Autocovariance")}
-#
-# Most of the action, for this time series especially, is near to the zero
-# lag. So, let's zoom in on the action. And let's plot autocorrelation,
-# rather than autocovariance. We'll use the estimate of the autocovariance
-# at lag zero at this time for the denominator.
-#
-# The following commands plots the lacv for lags ranging from -10 to 10 at
-# time t=100. Change the 100 to something else for different times
-#
-\dontrun{plot(-10:10,vv.lacv[100,(7162-10):(7162+10)]/vv.lacv[100,7162], type="l", xlab="lag")}
-#
-# Let us get an indication of how accurate the lacv is, we shall superimpose
-# some of the regular acf values on this plot. Note that vv.acf[1] contains
-# the acf at lag zero, which is 1.
-# 
-\dontrun{points(1, vv.acf[2])}
-\dontrun{points(2, vv.acf[3])}
-\dontrun{points(3, vv.acf[4])}
-\dontrun{points(4, vv.acf[5])}
-#
-# You should find that the lacv is pretty accurate, which is good
-# seeing as it is a local quantity.
-#
+\dontrun{plot(vsim.lacv, type="acf", the.time=100)}
 } 
 \keyword{ts}

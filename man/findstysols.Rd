@@ -11,8 +11,12 @@
 }
 \usage{
 findstysols(Nsims = 100, Ncoefs = 3, tsx, tsy, sf=100, plot.it = FALSE,
-	print.it=FALSE, verbose = FALSE, lctsfn=LCTS, prodcomb.fn=prodcomb,
-	filter.number=1, family="DaubExPhase", my.maxit=500)
+        print.it=FALSE, verbose = FALSE, lctsfn=LCTS, prodcomb.fn=prodcomb,
+        filter.number=1, family=c("DaubExPhase", "DaubLeAsymm"),
+	my.maxit=500, spec.filter.number=1,
+	spec.family=c("DaubExPhase","DaubLeAsymm"),
+        optim.control=list(maxit=my.maxit, reltol=1e-6),
+        irng=rnorm, lapplyfn=mclapply, Bsims=200, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -50,6 +54,27 @@ findstysols(Nsims = 100, Ncoefs = 3, tsx, tsy, sf=100, plot.it = FALSE,
   \item{my.maxit}{Maximum number of iterations in the optimization.
 	May need to be increased to, e.g. 1000 or 2000 for longer
 	time series (e.g. T=2048)}
+  \item{spec.filter.number}{Wavelet filter number. This argument
+	gets passed to the \code{lctsfn} and is used for the wavelet
+	for all spectral smoothing.}
+  \item{spec.family}{Same as \code{spec.filter.number} but for the wavelet
+	family.}
+  \item{optim.control}{Argument passed to the \code{optim} optimizer as
+	its \code{control} argument. \code{optim} 
+	performs optimization. See help page for \code{optim}.}
+  \item{irng}{Random number generator used to generate coefficients
+	for starting parameters for the linear combination of time
+	series (actually wavelet coefficients of the combination
+	functions)}
+  \item{lapplyfn}{Function to use to process lists. If this argument
+	is \code{mclapply} then the multicore library function 
+	\code{mclapply} is used to parallel process the lists.
+	If you don't have multicore then the \code{lapply} function
+	can be used to process things sequentially.}
+  \item{Bsims}{The number of bootstrap simulations for the (single)
+	test of stationarity \code{\link{BootTOS}}.}
+
+  \item{\dots}{Other arguments, passed to the \code{optim} call.}
 }
 \details{The function searches for time-varying linear combinations of
 	two time series, \code{tsa} and \code{tsy}, such that the combination
@@ -69,6 +94,9 @@ findstysols(Nsims = 100, Ncoefs = 3, tsx, tsy, sf=100, plot.it = FALSE,
 	over the coarse scale Haar wavelet coefficients.
 
 	This optimization procedure is repeated \code{Nsims} times.
+	If the \code{lapplyfn} is set to \code{mclapply} then this
+	function from the \code{multicore} package is used to process
+	the lists in parallel. 
 
 	This function can be called multiple times (e.g. on different
 	processors in a multiprocessor environment. The result sets from
@@ -101,7 +129,8 @@ findstysols(Nsims = 100, Ncoefs = 3, tsx, tsy, sf=100, plot.it = FALSE,
 	then look for stationarity of log-returns of the portfolios.
 	These functions will be made available in a later package.
 }
-\value{A list with the following components.
+\value{An object of class \code{csFSS} which is a
+	list with the following components.
   \item{startpar}{A matrix with \code{Nsims} rows and \code{2*Ncoefs}
 	columns containing the initial random coefficients of the
 	linear combination functions, one row for each optimization
@@ -121,84 +150,99 @@ findstysols(Nsims = 100, Ncoefs = 3, tsx, tsy, sf=100, plot.it = FALSE,
 	variance achieved on each run.}
   \item{pvals}{A vector of length \code{Nsims}. Contains the p-values
 	achieved on each run.}
+  \item{tsx}{The \code{tsx} time series that was supplied to this function}
+  \item{tsy}{The \code{tsy} time series that was supplied to this function}
+  \item{tsxname}{The name of the \code{tsx} object that was supplied}
+  \item{tsyname}{The name of the \code{tsy} object that was supplied}
+  \item{filter.number}{The filter number that was used}
+  \item{family}{The wavelet family that was used}
+  \item{spec.filter.number}{The filter number that was used}
+  \item{spec.family}{The wavelet family that was used}
 }
-\references{`Costationarity and stationarity tests for stock index returns'
-	by Cardinali and Nason.
+
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
 }
 \author{Guy Nason}
-\seealso{\code{\link{LCTS}}, \code{\link{myTOS}},\code{\link{plotBS}}, \code{\link{prodcomb}}, \code{\link{COEFscale}}, \code{\link{COEFbothscale}},
-\code{\link{LCTSres}}}
+\seealso{\code{\link{LCTS}}, \code{\link{BootTOS}},\code{\link{plotBS}}, \code{\link{prodcomb}}, \code{\link{COEFbothscale}},
+\code{\link{LCTSres}}, \code{\link{print.csFSS}}, \code{\link{summary.csFSS}},
+\code{\link{plot.csFSS}}}
 \examples{
-
 #
 # Find some stationary solutions with \code{Ncoefs=3}.
 #
-# (not run in R package installation as its compute intensive) 
+# Note: this is a toy example
 #
-\dontrun{tmp <- findstysols(Nsims=10, tsx=x2, tsy=y2)}
+tsx1 <- rnorm(32)	# A x time series
+tsy1 <- rnorm(32)	# A y time series
 #
-# Here are my results from this call
+# Find costationary solutions, but only from 2 random starts
 #
-\dontrun{tmp}
+# Typically, the length of tsx and tsy would be bigger (eg sret, fret are
+# other examples you might use). Also, Nsims would be bigger, you need
+# to use many random starts to ensure good coverage of the solution
+# space, e.g. Nsims=100
 #
-#$startpar
-#            [,1]        [,2]        [,3]       [,4]       [,5]       [,6]
-#[1,] -2.2547452 -0.77196922 -0.52060764 -0.8593779  0.6733086  1.4768199
-#[2,] -2.3211605 -0.04410615  0.15945799 -1.5154560 -1.5176482  0.1374697
-#[3,] -0.7792824 -0.85653735  0.40063430  0.9371025  0.1987466 -0.9809195
-#[4,] -0.3141137 -0.13877435 -0.39190827  1.4200912 -0.1809564  0.5827172
-#[5,] -1.3527352  0.78055909 -0.63661402 -0.2365094 -0.3829789 -0.8137181
-#[6,]  0.3049843 -0.70033280  0.01900144  0.4765084 -0.7540503 -2.0909379
-#[7,]  1.0726596 -1.09382977  0.62279794  0.3470011  1.1275294  0.8646476
-#[8,]  0.9281181 -0.16476371  1.01723416  0.6716444 -0.6169555  0.5984466
-#[9,] -1.2719359 -0.08608032  0.50967856 -0.9645608  0.4374194  0.4465487
-#[10,] -0.8540283  1.07240182  0.22499203 -0.7814163  0.5153788 -0.4387466
+# Note: the following examples are not run so as to adhere to CRAN
+# requirements for package execution timings
 #
-#[1,]     0.8654740
-#[2,]    -4.0003431
-#[3,]    -0.9556344
-#[4,]     0.7849405
-#[5,] -4016.6360353
-#[6,]    -1.9475162
-#[7,]     1.4951978
-#[8,]     0.2847806
-#[9,]     2.4693086
-#[10,]   166.0928567
+\dontrun{ans <- findstysols(Nsims=3, tsx=tsx1, tsy=tsy1)}
 #
-#$convergence
-#[1]  0  0  1  1 10  0  1  1  0  1
+# Print out a summary of the results
 #
-#$minvar
-#[1] 5.409046e-07 2.187609e-07 2.270164e-07 1.975476e-07 1.941969e-07
-#[6] 1.650412e-07 2.410830e-07 2.103711e-07 2.064031e-07 2.122840e-07
-#
-#$pvals
-#[1] 0.32 0.45 0.00 0.39 0.24 0.28 0.54 0.37 0.32 0.44
+\dontrun{ans}
+#Class 'csFSS' : Stationary Solutions Object from costat:
+#       ~~~~~  : List with 13 components with names
+#              startpar endpar convergence minvar pvals tsx tsy tsxname tsyname
+#		filter.number family spec.filter.number spec.family 
 #
 #
-# From the $convergence list only 4 converged (solns 1, 2, 6 and 9)
+#summary(.):
+#----------
+#Name of X time series:  tsx1 
+#Name of Y time series:  tsy1 
+#Length of input series:  32 
+#There are  3  sets of solutions
+#Each solution vector is based on  3  coefficients
+#Some solutions did not converge, check convergence component for more information.
+#Zero indicates successful convergence, other values mean different things and
+#you should consult the help page for `optim' to discover what they mean
+#For size level:  0.05 
+#	 0  solutions appear NOT to be stationary
+#	 3  solutions appear to be stationary
+#Range of p-values: ( 0.93 , 0.995 )
 #
-# Of these 4, what are the associated p-values?
+#Wavelet filter for combinations:  1   DaubExPhase 
+#Wavelet filter for spectrum:  1   DaubExPhase 
 #
-\dontrun{tmp$pvals[tmp$convergence==0]}
-#[1] 0.32 0.45 0.28 0.32
+#______________
 #
-# So, all of these are > 0.05, so apparently each of these solutions are
-# stationary.
+# Ok. The printout above suggests that some solutions did not converge.
+# Which ones?
 #
-# We can further examine these solutions with \code{\link{COEFbothscale}}
-# and optionally \code{\link{COEFscale}}.
+\dontrun{ans$convergence}
+# [1] 0 1 0 
 #
-# E.g.
-\dontrun{COEFbothscale(tmp)}
+# The second one did not converge, the others did. Good. The printout
+# above also indicates that all the resultant solutions were stationary
+# (this is not surprising for this example, as the inputs tsx1 and tsy1
+# are stationary, and indeed iid).
 #
-# This extracts the solution vectors for those where the optimizer converged
-# and where the solutions are deemed stationary. Then those are subjected
-# to a hierarchical clustering and plotted. So, we can see which solutions
-# are similar and which are different.
+# Let's see how the solutions compare. For example, let's plot the
+# hierarchical cluster analysis of the final solutions (those that
+# converged and are stationary)
 #
-# The function \code{\link{LCTSres}} can produce pictures of the results
-# for particular solutions. E.g. the linear combination vectors, the combined
-# series and its estimated spectrum.
+\dontrun{plot(ans, ALLplotscale=FALSE)}
+#
+# My cluster shows that solution 1 and 3 are similar. Let's
+# view solution 3.
+#
+\dontrun{oldpar <- par(mfrow=c(2,2))}
+\dontrun{plot(ans, solno=3)}
+\dontrun{par(oldpar)}
 }
 \keyword{ts}

@@ -6,12 +6,13 @@
 	multiple calls to \code{\link{findstysols}} into 
 	a single object for further analysis}
 \usage{
-mergexy(l)
+mergexy(\dots)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{l}{An object containing a set of optimization solutions,
-	such as that returned by \code{\link{findstysols}}} 
+  \item{\dots}{An unspecified number of arguments of class \code{csFSS}.
+	(usually a set of objects containing a set of optimization solutions,
+	such as that returned by \code{\link{findstysols}})} 
 }
 \details{
 The return object from an invocation of the
@@ -47,31 +48,30 @@ The return object from an invocation of the
 }
 \value{A set of optimization solutions in the same format as
 	those returned by \code{\link{findstysols}}}
-\references{`Costationary and stationarity tests for stock index returns' by Car
-dinali and Nason, 2008, University of Bristol Technical Report 08:08.}
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
+}
 \author{Guy Nason}
 \seealso{\code{\link{findstysols}}, \code{\link{LCTSres}},
 	\code{\link{COEFbothscale}}}
 \examples{
 #
-# Run two optimizations (don't run in R installation as it is compute intense)
+# Generate two dummy time series
 #
-\dontrun{solnset1 <- findstysols(Nsims=1, tsx=x2, tsy=y2)}
-\dontrun{solnset2 <- findstysols(Nsims=1, tsx=x2, tsy=y2)}
+x1 <- rnorm(32)
+y1 <- rnorm(32)
+#
+# Run two optimizations 
+#
+\dontrun{solnset1 <- findstysols(Nsims=1, tsx=x1, tsy=y1)}
+\dontrun{solnset2 <- findstysols(Nsims=1, tsx=x1, tsy=y1)}
 #
 # Merge them
 #
 \dontrun{solnset <- mergexy(solnset1, solnset2)}
-#
-# The previous three commands are equivalent to
-#
-\dontrun{solnset <- findstysols(Nsims=2, tsx=x2, tsy=y2)}
-#
-# Although the single command is more elegant the previous set of three
-# has the advantage that the two calls to findstysols can be executed by,
-# e.g. two different processors hence speeding overall execution time. 
-#
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ts}

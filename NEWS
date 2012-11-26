@@ -1,0 +1,166 @@
+
+
+2.0: Extensive set of changes, some related to referee suggestions in 
+	associated manuscript 
+
+	Extensive revamp of lacv.
+		(i) changing of default wavelet arguments to match wavethresh
+		(ii) explicit addition of smooth.var argument to pass to
+			ewspec, because this arg is important and so its
+			good to get it into the arg list so that it appears
+			"up front" in the help page.
+		(iii)	add in an AutoReflect argument. By default WaveThresh
+			mostly implements periodic transforms which are not
+			very useful for time series analysis where the start
+			of the series should not be assumed to be anything
+			like the end of the series. One way of helping is
+			to reflect the time series around the right-hand
+			end point. This increases the computation time
+			subsequently, but the results are much better
+			(and aren't contaminated by the usual edge effects)
+		(iv) lag.max is added. This puts an upper bound on the
+			highest lag that gets computed. So, if you are only
+			interested in the low lags, e.g. up to 10, then set
+			this quantity to be 10! If this option is set too
+			high, e.g. higher than the maximum possible, then
+			it is reset to be the maximum possible! Note that this
+			option performs the same function as in the acf
+			function, and using it can help reduce the number of
+			acf values that are required.
+		(v) lacv now returns an object of class lacv which contains
+			the localized autocovariance, the localized
+			autocorrelation, both of which now only contain the
+			zero and positive lags (but not negative as there is
+			no need as the function is symmetric). The name of
+			the original dataset and the date of production are
+			also produced.
+
+	Three methods for lacv have been written
+
+		print.lacv:	basic information object the lacv object
+		summary.lacv:	some more info, dimensions, name, date info
+
+		plot.lacv: comprehensive plotting function. Depending on the
+			value of the "type" argument this function can (i) plot
+			values of the autocorrelation over time (different
+			lags have different lines, particular lags can be
+			selected and appear numbered, can be of specified
+			colours and line types), (ii) a perspective plot
+			of the 2D function c(z, \tau), (iii) the "standard"
+			acf plot at a given, fixed, time location.
+
+	plotBS: This has been changed in two ways, both relating to the
+		vertical line which shows the value of the test statistic
+		on the true (non-bootstrapped) data. First, the line type
+		has been changed to 2, to make it dashed and clearer.
+		Second, the vertical line wasn't always plotted previously.
+		This was when the true value of the test statistic was higher
+		than the range of the data in the histogram. Now the xlim
+		values on the histogram are modified to include also the
+		true value of the test statistic so it should always be plotted.
+
+	AntiAR: a new function to help, e.g. BootTOS. This undoes the effects
+		of reflection (now caused by the AutoReflect argument).
+		Essentially, this takes a EWS spectral object and only
+		returns the first half of times (for both father and mother
+		wavelet coefficients), and changes the number of levels
+		(decrement by one) and also fixed up the fl.dbase to be
+		the right things, everything else is copied straight from
+		the unreflected object. The name of this function stands
+		for "Anti AutoReflect".
+
+	New names for some data sets.
+		The impenetrable names for the data sets x2 and y2 have been
+		changed to sret and fret, for the SP500 and FTSE100 log-returns
+		series respectively: so that the names make more immediate sense.
+
+		They are also longer the first 1024 observations rather than
+		the first 512
+
+		x in the previous version's examples is now named xsim
+		vv is now named vsim (to make it clearer that these are sims)
+		Similarly z -> zsim
+
+	myTOS: Changed the name to BootTOS to be more self-explanatory
+
+		changed the default verbose option from TRUE to FALSE.
+		Also modified this function to take advantage of parallel
+		processing by using the mclapply function from multicore.
+		Note, that sequential processing can be reinstated by
+		changing the argument of lapplyfn back to lapply
+
+	tstosscan: DELETED
+
+	findstysols: returns an S3 class object: "csFSS". Previously, this
+		returned a list, which is now "classed" so that standard
+		generics can be used on the object.
+
+		Also parallelized, as for myTOS above.
+
+		The following methods have been introduced for csFSS
+		class objects: print.csFSS, summary.csFSS, plot.csFSS
+		(plot.csFSS is now essentially a wrapper for either
+		COEFbothscale or LCTSres).
+
+		More arg checking: Ncoefs+1 must be integer power of two,
+		where power >= 1.
+
+		The function also now returns the two time series (tsx
+		and tsy) and their names. This is useful for functions
+		like plot.csFSS which make use of this information
+		and can now get it directly from the object, and hence
+		it does not need to be additionally specified later.
+
+		Added ... argument to function, so that arguments can be
+		passed to optim, and change arrangements for control argument
+		so that it gets passed from the main function argument line
+		(and so does not interfere in the call to optim).
+		Also added return value from optim call to return value of
+		main function (optim.return component of returned object).
+
+	mergexy: now checks input to ensure it is of right class (csFSS)
+		and also returns an object of this class
+
+		Also checks that number of coefficients (Ncoefs) associated
+		with each csFSS input object is the same, as we cannot
+		mix Ncoefs, as this does not make sense for later functions
+		which assume that they are the same (and also the coefficient
+		matrices would have differing number of columns and couldn't
+		be cbound together!)
+
+		Also carries out checks to ensure that the time series
+		supplied in each object are the same, both in terms of
+		value and name. Also checks that the filter.number, family,
+		spec.filter.number and spec.family are the same.
+
+	COEFbothscale: minor changes for better argument checking.
+		Also some minor bugfixes to cope with other parts of
+		R changing (E.g. norm?). 
+
+		Now not designed to be called directly by the user,
+		but through the plot.csFSS method.
+
+		Also, this function now performs the calculations to
+		obtain results that can be plotted, but does not plot
+		the results itself. It returns an object of class csFSSgr,
+		which itself can be plotted using a generic.
+
+		Hence introduced plot.csFSSgr, summary.csFSSgr, print.csFSSgr
+
+	COEFscale: Removed
+
+	LCTSres: checks first argument is a csFSS object (although now
+		this routine is designed to be called through plot.csFSS)
+
+
+	coeftofn: This function now returns an object of class csBiFunction
+
+		New functions
+
+		summary.csBiFunction, print.csBiFunction and
+		plot.csBiFunction have been written
+
+	ewcrossspec: DELETED
+
+	extractCS: added new function to extract information from slots from
+		csFSS object

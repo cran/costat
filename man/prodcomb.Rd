@@ -12,7 +12,8 @@
 	and the result returned.
 }
 \usage{
-prodcomb(cfs, tsx, tsy, filter.number = 1, family = "DaubExPhase", all = FALSE)
+prodcomb(cfs, tsx, tsy, filter.number = 1,
+	family = c("DaubExPhase", "DaubLeAsymm"), all = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -38,13 +39,18 @@ prodcomb(cfs, tsx, tsy, filter.number = 1, family = "DaubExPhase", all = FALSE)
 	function used in the combination.
 }
 \value{If \code{all=TRUE} then a list with the following components:
-  \item{lcts}{The combined series, \deqn{\alpha_t X_t + \beta_t Y_t}}
-  \item{alpha}{The \deqn{\alpha_t} combination function.}
-  \item{beta}{The \deqn{\beta_t} combination function.}
+  \item{lcts}{The combined series, \eqn{\alpha_t X_t + \beta_t Y_t}}
+  \item{alpha}{The \eqn{\alpha_t} combination function.}
+  \item{beta}{The \eqn{\beta_t} combination function.}
 	If \code{all=FALSE} then only \code{lcts} is returned.
 }
-\references{`Costationary and stationarity tests for stock index returns' by Car
-dinali and Nason, 2008, University of Bristol Technical Report 08:08.}
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
+}
 \author{Guy Nason}
 \seealso{\code{\link{findstysols}}, \code{\link{coeftofn}}}
 \examples{

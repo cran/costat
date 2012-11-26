@@ -9,15 +9,20 @@
 	turned off.
 }
 \usage{
-LCTSres(res, tsx, tsy, inc = 0, solno = 1:nrow(res$endpar), filter.number = 1, family = "DaubExPhase", plot.it = FALSE, spec.filter.number = 1, spec.family = "DaubExPhase", plotcoef = FALSE, sameplot = TRUE, norm = FALSE, plotstystat = FALSE, plotsolinfo = TRUE, onlyacfs = FALSE, acfdatatrans = I, xlab = "Time", ...)
+LCTSres(res, tsx, tsy, inc = 0, solno = 1:nrow(res$endpar), filter.number = 1,
+  family = c("DaubExPhase", "DaubLeAsymm"), plot.it = FALSE,
+  spec.filter.number = 1,
+  spec.family = c("DaubExPhase", "DaubLeAsymm"), plotcoef = FALSE,
+  sameplot = TRUE, norm = FALSE, plotstystat = FALSE,
+  plotsolinfo = TRUE, onlyacfs = FALSE,
+  acfdatatrans = I, xlab = "Time", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{res}{Solution set returned by findstysols}
-  \item{tsx}{The x time series}
-  \item{tsy}{The y time series}
-  \item{inc}{When plotting add an increment on where to start looking at
-	the time series/solutions from}
+  \item{tsx}{The \code{x} time series}
+  \item{tsy}{The \code{y} time series}
+  \item{inc}{Adds an increment to the x-axis values.}
   \item{solno}{Which solution number to look at. This can be a vector of
 	solution numbers. The default is to look at all solutions (which
 	can be a lot, depending on how many you've got)}
@@ -49,16 +54,17 @@ LCTSres(res, tsx, tsy, inc = 0, solno = 1:nrow(res$endpar), filter.number = 1, f
 	to their overall size.}
   \item{plotstystat}{If TRUE (and if \code{plotcoef=FALSE}) this option
 	causes the function to plot statistics associated with the
-	stationary solution, \deqn{Z_t}. The acf and partial acf are always
-	plotted. The time series plot of \deqn{Z_t} and its spectrum are
+	stationary solution, \eqn{Z_t}. The acf and partial acf are always
+	plotted. The time series plot of \eqn{Z_t} and its spectrum are
 	optionally plotted too if \code{onlyacfs=FALSE}.}
   \item{plotsolinfo}{If TRUE (and if \code{plotsolinfo=FALSE}) this
-	option plots the \deqn{alpha_t} linear combination function,
-	the \deqn{beta_t} one (ie both of them), the stationary linear combination
-	\deqn{Z_t},
-	and an estimate of the EWS of \deqn{Z_t} computed using the
+	option plots the \eqn{\alpha_t} linear combination function,
+	the \eqn{\beta_t} one (ie both of them),
+        the stationary linear combination
+	\eqn{Z_t},
+	and an estimate of the EWS of \eqn{Z_t} computed using the
 	\code{spec.filter.number} and \code{spec.family} wavelet.
-	The variance associated with \deqn{Z_t} (the minimizing variance from
+	The variance associated with \eqn{Z_t} (the minimizing variance from
 	the optimizer in \code{\link{findstysols}} and the p-value	
 	associated with the solution are displayed as plot titles.}
   \item{onlyacfs}{Only plot the two acfs if \code{plotstystat=TRUE}}
@@ -69,7 +75,7 @@ LCTSres(res, tsx, tsy, inc = 0, solno = 1:nrow(res$endpar), filter.number = 1, f
 }
 \details{The function \code{\link{findstysols}} takes two time series
 	and attempts to find time-varying linear combinations of the
-	two that are stationary. If one is found, we call it \deqn{Z_t}.
+	two that are stationary. If one is found, we call it \eqn{Z_t}.
 	However, \code{\link{findstysols}} works by numerical optimization,
 	typically from random starts, and, generally, there is no unique
 	stationary solution. 
@@ -97,40 +103,44 @@ LCTSres(res, tsx, tsy, inc = 0, solno = 1:nrow(res$endpar), filter.number = 1, f
 	(on the same page if \code{mfrow} is set as the previous paragraph
 	suggests). The first two are the (potentially) time-varying linear 
 	combination functions, the next is the stationary linear
-	combination, \deqn{Z_t}, itself and the final plot is an estimate of
-	the \deqn{Z_t}'s evolutionary wavelet spectrum. The titles of the latter
-	two plots display the process variance of \deqn{Z_t} (the global
-	unconditional variance, because \deqn{Z_t} is assumed to be stationary)
+	combination, \eqn{Z_t}, itself and the final plot is an estimate of
+	the \eqn{Z_t}'s evolutionary wavelet spectrum. The titles of the latter
+	two plots display the process variance of \eqn{Z_t} (the global
+	unconditional variance, because \eqn{Z_t} is assumed to be stationary)
 	and the p-value associated the the hypothesis test of stationarity
-	of \deqn{Z_t}. The spectral estimate show exhibit near constancy because
-	of the stationarity (as assessed by hypothesis test) of \deqn{Z_t}.
+	of \eqn{Z_t}. The spectral estimate show exhibit near constancy because
+	of the stationarity (as assessed by hypothesis test) of \eqn{Z_t}.
 
 	If \code{plotstystat=TRUE} then further plots are produced 
-	of the results of various classical time series analyses of \deqn{Z_t}.
-	If \code{onlyacfs=TRUE} then only the acf and partial acf of \deqn{Z_t}
-	are plotted, otherwise \deqn{Z_t} and its classical spectrum are also
-	plotted (remember, \deqn{Z_t}, has tested to be stationary and so these
+	of the results of various classical time series analyses of \eqn{Z_t}.
+	If \code{onlyacfs=TRUE} then only the acf and partial acf of \eqn{Z_t}
+	are plotted, otherwise \eqn{Z_t} and its classical spectrum are also
+	plotted (remember, \eqn{Z_t}, has tested to be stationary and so these
 	classical methods are valid).
 
 	If more than one solution is to be plotted, then the \code{scan()}
 	function is employed to pause the plots between plots.
 }
-\value{The stationary solution, \deqn{Z_t}, associated with the last solution
+\value{The stationary solution, \eqn{Z_t}, associated with the last solution
 	to be plotted is returned. Of course, if there is only one
 	solution to be plotted then it is the only possibility. Hence,
 	if all the \code{plot} arguments are FALSE then no plots are 
 	produced and the stationary linear combination of the (last)
 	solution number is returned.
 }
-\references{`Costationary and stationarity tests for stock index returns'
-by Cardinali and Nason}
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
+}
 \author{Guy Nason}
 \seealso{\code{\link{findstysols}}}
 \examples{
 #
-# The example follows on directly from the one in the help page in findstysols
-#
-\dontrun{LCTSres(tmp, tsx=x2, tsy=y2, solno=1)}
+# See examples in findstysols (the plot method for the results of
+# findstysols make use of LCTSres)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

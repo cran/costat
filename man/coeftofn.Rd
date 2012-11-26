@@ -12,7 +12,8 @@
 	representation.
 }
 \usage{
-coeftofn(alpha, beta, n = 256, filter.number = 1, family = "DaubExPhase")
+coeftofn(alpha, beta, n = 256, filter.number = 1,
+	family = c("DaubExPhase", "DaubLeAsymm"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,13 +33,20 @@ coeftofn(alpha, beta, n = 256, filter.number = 1, family = "DaubExPhase")
 	before forming the combination functions which end up at the
 	correct length, n.  
 }
-\value{A list containing two components:
+\value{An object of class \code{csBiFunction} which is
+	list containing two components:
   \item{alpha}{A vector, of length n, containing one of the time-varying
 	combination functions}
   \item{beta}{Same as \code{alpha}, but contains the other combination
 	function.}
 }
-\references{`Costationarity and stationarity tests for stock index returns' by Cardinali and Nason.}
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
+}
 \author{Guy Nason}
 \seealso{\code{\link{LCTS}}, \code{\link{LCTSres}}}
 \examples{
@@ -50,11 +58,18 @@ tmp.b <- c(0.5, 0.5)
 #
 #
 #
-\dontrun{ans <- coeftofn(tmp.a, tmp.b)}
+ans <- coeftofn(tmp.a, tmp.b)
 #
-# Should return two combination functions of length 256
+# Print it out
 #
-\dontrun{length(ans$alpha)}
-#[1] 256
+ans
+#Class 'csBiFunction' : Contains two sampled functions:
+#       ~~~~  : List with 2 components with names
+#              alpha beta 
+#
+#
+#summary(.):
+#----------
+#Length of functions is:  256 
 }
 \keyword{ts}

@@ -1,5 +1,5 @@
-\name{myTOS}
-\alias{myTOS}
+\name{BootTOS}
+\alias{BootTOS}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Perform bootstrap stationarity test for time series}
 \description{Given a time series this function runs a bootstrap hypothesis
@@ -9,7 +9,8 @@
 	if deemed non-stationary. 
 }
 \usage{
-myTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = TRUE, plot.avspec = FALSE, plot.avsim = FALSE, theTS = TOSts)
+BootTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = FALSE, plot.avspec = FALSE,
+        plot.avsim = FALSE, theTS = TOSts, AutoReflect=TRUE, lapplyfn=mclapply)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,6 +26,18 @@ myTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = TRUE, plot.avspec = FALSE, plot
 	plot the time series of the simulated time series from the
 	average EWS (the one that might be plotted by \code{plot.avspec=TRUE}}
   \item{theTS}{Specifies the particular test statistic to be used}
+  \item{AutoReflect}{If TRUE then the series is reflected and augmented
+	by its end point on the RH-side, and the spectral quantities
+	are evaluated on that. Everything returned though applies only
+	to the original series, the reflection is merely to ensure that
+	the periodic wavelet algorithms can be used on non-periodic data}
+  \item{lapplyfn}{List processing function. Parallel processing of
+	the bootstrap simulations can be achieved by using the \code{multicore}
+	package and the \code{mclapply} function. Sequential processing
+	can be achieved using the standard \code{lapply} function.
+	So, if you can't run multicore then you should use \code{lapply},
+	otherwise try and use the default \code{mclapply} for
+	faster execution times.}
 }
 \details{The details of our testing methodology are set out in the
 	Cardinali and Nason paper referenced below.
@@ -48,9 +61,9 @@ myTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = TRUE, plot.avspec = FALSE, plot
 	time (\eqn{\bar{S}_j}{\bar{S}_j}). Then we use the function
 	\code{LSWsim} to simulate a time series whose EWS is the
 	constant, stationary, spectral estimate. Then we compute our
-	test statistic, \deqn{T_b}, on this simulated series. 
+	test statistic, \eqn{T_b}, on this simulated series. 
 
-	Then we calculate \deqn{T_b} for \code{Bsim-1} simulations. The function
+	Then we calculate \eqn{T_b} for \code{Bsim-1} simulations. The function
 	then returns \code{BSim} numbers. The first is the test statistic
 	computed on the actual data. The remaining ones are the test
 	statistic computed on the simulated stationary series.
@@ -73,15 +86,20 @@ myTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = TRUE, plot.avspec = FALSE, plot
 
 	The function \code{plotBS} can be used the present the results
 	of this function in an interpretable form and calculate the
-	p-value of the test.
+	p-value of the test, although you should use the
+	generic \code{plot} function to call this.
 }
 \value{A vector of length \code{Bsim}. The first entry is the value
 	of the test statistic computed on the data. The remaining
 	entries are boostrap values computed on the `averaged' EWS estimate
 	with constant spectrum.
 }
-\references{`Costationarity and stationarity tests for stock index returns'
-	by Cardinali and Nason.
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
 }
 \author{Guy Nason}
 \seealso{\code{\link{TOSts}}, \code{\link{plotBS}}}
@@ -90,7 +108,7 @@ myTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = TRUE, plot.avspec = FALSE, plot
 # Calculate test of stationarity on example we know to be stationary,
 # a series of iid values
 #
-\dontrun{plotBS(myTOS(rnorm(128)), plot=FALSE)}
+plot(BootTOS(rnorm(64), Bsims=10), plot=FALSE)
 #
 # The following text is what gets printed
 #
@@ -108,9 +126,12 @@ myTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = TRUE, plot.avspec = FALSE, plot
 # The text "Series is stationary" just means that the empirical p-value
 # was greater than the nominal test size (alpha=0.05, by default).
 #
-# Let's now try another example with the series x2
+# Let's now try another example with the series sret: note that if you
+# have a slow single core machine, this can take a long time, so we don't
+# run it in the examples. However, on a fastish machine it is quick, on
+# a fast multicore machine it is really quick!
 #
-\dontrun{plotBS(myTOS(x2), plot=FALSE)}
+\dontrun{plot(BootTOS(sret))}
 #
 #Realized Bootstrap is  2.662611e-09 
 #p-value is  0 
@@ -121,6 +142,4 @@ myTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = TRUE, plot.avspec = FALSE, plot
 # of non-stationarity.
 #
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ts}

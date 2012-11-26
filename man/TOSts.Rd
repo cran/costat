@@ -23,17 +23,21 @@ TOSts(spec)
 	each scale level from an EWS estimate. If the EWS estimate is
 	constant for each scale then the return value is zero. 
 }
-\references{`Costationarity and stationarity tests for stock index returns'
-	by Cardinali and Nason.
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
 }
 \author{Guy Nason}
-\seealso{\code{\link{myTOS}}}
+\seealso{\code{\link{BootTOS}}}
 \examples{
 #
 # Compute a spectral estimate on an sample time series (just use iid data)
 #
-x <- rnorm(128)
-\dontrun{xews <- ewspec(x, WPsmooth=TRUE, smooth.dev=var)$S}
+xsim <- rnorm(128)
+xews <- ewspec(xsim, smooth.dev=var)$S
 #
 # You could plot this spectral estimate if you liked
 #
@@ -41,14 +45,14 @@ x <- rnorm(128)
 #
 # Compute test statistic
 #
-\dontrun{TOSts(xews)}
+TOSts(xews)
 #[1] 0.1199351
 #
 # Although the time series x here is a realization from a stationary process
 # the test statistic is not zero (this is because of the estimation error
 # inherent in this small sample). 
 #
-# This is why the bootstrap test, \code{\link{myTOS}} is required to
+# This is why the bootstrap test, \code{\link{BootTOS}} is required to
 # assess the significance of the test statistic value.
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

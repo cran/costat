@@ -1,16 +1,15 @@
-`localvar` <-
-function(spec){
+localvar <-
+function (spec) 
+{
 #
-# Calculate Time Varying local variance from corrected periodogram 
+# Compute time-varying local variance from a spectrum
 #
-
-J <- nlevels(spec)
+J <- spec$nlevels
 n <- 2^J
-
-m <- matrix(spec$D, nrow=J, ncol=n, byrow=TRUE)
-apply(m,2,sum)
-
-
-
+m <- matrix(spec$D, nrow = J, ncol = n, byrow = TRUE)
+#
+# Sum spectra over scale
+#
+answer <- apply(m, 2, sum)
+return(answer)
 }
-

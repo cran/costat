@@ -16,14 +16,17 @@ localvar(spec)
 	computing its evolutionary wavelet spectrum, e.g., by using
 	\code{ewspec}, and then applying \code{localvar} on the
 	\code{S} component of that returned by \code{ewspec}.
-
-	Can also be used on the output of \code{\link{ewcrossspec}}.
 }
 \value{A vector representing the local variance estimate at successive
 	times.
 }
-\references{`Costationary and stationarity tests for stock index returns' by Car
-dinali and Nason, 2008, University of Bristol Technical Report 08:08.}
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
+}
 \author{Guy Nason}
 \seealso{\code{ewspec}}
 \examples{
@@ -31,17 +34,17 @@ dinali and Nason, 2008, University of Bristol Technical Report 08:08.}
 # Let's look at a iid standard normal sequence, variance should be 1, always
 # for all times.
 #
-z <- rnorm(1024)
+zsim <- rnorm(64)
 #
 # Note, in the following I use var as the method of deviance estimation,
 # as described in the help there it can be more accurate when transformations
 # are not used.
 #
-\dontrun{z.ews <- ewspec(z, smooth.dev=var)}
+z.ews <- ewspec(zsim, smooth.dev=var)$S
 #
 # Compute the local variance
 #
-\dontrun{z.lv <- localvar(z.ews)}
+z.lv <- localvar(z.ews)
 #
 # Plot the local variance against time
 #
@@ -51,6 +54,9 @@ z <- rnorm(1024)
 # deceptive, as R plots expand the function to the maximum available
 # space. If you look again it should be quite close to 1 (e.g. on the
 # example I am looking at now the variance is within +/- 0.15 of 1.
+#
+# However, it might not be close to 1 because the sample size is quite small,
+# only 64, so repeat the above analysis with a larger sample size, e.g. 1024.
 #
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

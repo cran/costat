@@ -18,8 +18,12 @@
 }
 \source{Downloaded from Yahoo! Finance
 }
-\references{`Costationarity and stationarity tests for stock index returns'
-	by Cardinali and Nason.
+\references{
+Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
+Stationary Time Series using \code{costat}.
+
+Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
+time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.
 }
 \examples{
 #
