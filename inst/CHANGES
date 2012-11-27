@@ -164,3 +164,6 @@
 
 	extractCS: added new function to extract information from slots from
 		csFSS object
+
+2.2:	Replaced dependency on multicore to parallel (as latter package
+	has replaced former). Added this CHANGES file.
