@@ -1,8 +1,8 @@
-b2b61cb4848709007de4dfa28ddb6206 *DESCRIPTION
+cf806991f080551ee0aa948578a890b3 *DESCRIPTION
 2e539080032777fce329ba8153c279cd *NAMESPACE
 f37df86cbbc929dedc97c7d05b651e3b *NEWS
 2d04219a31ee9d84fe115348c2142fed *R/AntiAR.R
-40da25a8557d77a8b035ee454cbb4d03 *R/BootTOS.R
+0a2262df085f20b4e6e497794e39650d *R/BootTOS.R
 83155f1fe6809be57dda7c2d02156b37 *R/COEFbothscale.R
 464c31106ccbe48eedafbe983b56e4d8 *R/EWSsmoothRM.R
 95d45803195e8a9e6452d4eb6ae1dc1a *R/LCTS.R
@@ -10,8 +10,8 @@ f37df86cbbc929dedc97c7d05b651e3b *NEWS
 9016df53cf2a1cde6e69a0d596b80932 *R/TOSts.R
 3e2a5a187f7be0afee4218676c5f85cf *R/coeftofn.R
 d4fb03f43f1b8914b88c7c1f57bc756f *R/extractCS.R
-ec74031e5e7b604f4562d90a6a25db02 *R/findstysols.R
-146c0851dace20890ebe9051039b3129 *R/getpvals.R
+149a922e9167d5093b808c43e38fb453 *R/findstysols.R
+4f0761e09408fee73c394d871a1d190c *R/getpvals.R
 9bee509196f6079d7ec5b59d66f89606 *R/lacv.R
 ab01f74b7f9ca28fd0e372161a3cbcd3 *R/localvar.R
 66cbdb7890879552053ef01fb144b0b8 *R/mergexy.R
@@ -34,7 +34,7 @@ c44da91f62858409849cb6fc38d89558 *R/summary.csFSS.R
 4fdf321090dee73949296984eac52b90 *data/fret.rda
 68d11aa8838849a034405f42dc4b6c08 *data/sret.rda
 a8cb170b056740c9135329d826855897 *man/AntiAR.Rd
-6411a432ab42f773ffe7e82bf8474556 *man/BootTOS.Rd
+911fe2131a54b3e44ba3151477df6495 *man/BootTOS.Rd
 4af79df7e1d4d70997b648e92b09505e *man/COEFbothscale.Rd
 d9d87b2f815955378a28cd430caa78c9 *man/EWSsmoothRM.Rd
 1b522093a99c1f27988375c45ae52df4 *man/LCTS.Rd
@@ -44,9 +44,9 @@ b3ae1d2d0ed41f171ca983bb33d9b014 *man/TOSts.Rd
 2afc64e0c2ca400860886b12f1c2b027 *man/coeftofn.Rd
 a33e6063acfe6e6edd535fdf9b4d91d3 *man/costat-package.Rd
 1615c8e1c838e09253e3d6539e89e207 *man/extractCS.Rd
-3a72fa0b6321f271c92eeba31d80b30b *man/findstysols.Rd
+39f38358bc0bb07d53e915d2b6d1d6d9 *man/findstysols.Rd
 fb406614a813d811f4af8ca70741ee98 *man/fret.Rd
-2c51b130b1c762a4e9c48c247b5f0dfc *man/getpvals.Rd
+32ffbf3b0af05adb3cb8e92b7a91f007 *man/getpvals.Rd
 6630aece0f81f3a2c69fc371b444ebc2 *man/lacv.Rd
 1601be2271884c45d0a0f2f8f053918f *man/localvar.Rd
 2e0ea062924f30a89fa96c1f0eaac738 *man/mergexy.Rd

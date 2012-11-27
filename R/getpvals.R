@@ -1,7 +1,7 @@
 getpvals <-
 function(par, prodcomb.fn, tsx, tsy, filter.number,
 	family=c("DaubExPhase", "DaubLeAsymm"),
-	verbose=FALSE, tos=BootTOS, Bsims=100, lapplyfn=mclapply)
+	verbose=FALSE, tos=BootTOS, Bsims=100, lapplyfn=lapply)
 {
 family <- match.arg(family)
 #

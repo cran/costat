@@ -12,7 +12,7 @@
 \usage{
 getpvals(par, prodcomb.fn, tsx, tsy, filter.number,
 	family=c("DaubExPhase", "DaubLeAsymm"),
-	verbose, tos = BootTOS, Bsims = 100, lapplyfn = "mclapply")
+	verbose, tos = BootTOS, Bsims = 100, lapplyfn = lapply)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

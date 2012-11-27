@@ -1,6 +1,6 @@
 BootTOS <-
 function(x, Bsims=100, WPsmooth=TRUE, verbose=FALSE, plot.avspec=FALSE,
-	plot.avsim=FALSE, theTS = TOSts, AutoReflect=TRUE, lapplyfn=mclapply){
+	plot.avsim=FALSE, theTS = TOSts, AutoReflect=TRUE, lapplyfn=lapply){
 #
 # Compute bootstrap test of stationarity on time series x
 #

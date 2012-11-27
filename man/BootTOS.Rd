@@ -10,7 +10,7 @@
 }
 \usage{
 BootTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = FALSE, plot.avspec = FALSE,
-        plot.avsim = FALSE, theTS = TOSts, AutoReflect=TRUE, lapplyfn=mclapply)
+        plot.avsim = FALSE, theTS = TOSts, AutoReflect=TRUE, lapplyfn=lapply)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,7 +36,7 @@ BootTOS(x, Bsims = 100, WPsmooth = TRUE, verbose = FALSE, plot.avspec = FALSE,
 	package and the \code{mclapply} function. Sequential processing
 	can be achieved using the standard \code{lapply} function.
 	So, if you can't run multicore then you should use \code{lapply},
-	otherwise try and use the default \code{mclapply} for
+	otherwise try and use \code{mclapply} for
 	faster execution times.}
 }
 \details{The details of our testing methodology are set out in the

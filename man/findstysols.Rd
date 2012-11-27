@@ -16,7 +16,7 @@ findstysols(Nsims = 100, Ncoefs = 3, tsx, tsy, sf=100, plot.it = FALSE,
 	my.maxit=500, spec.filter.number=1,
 	spec.family=c("DaubExPhase","DaubLeAsymm"),
         optim.control=list(maxit=my.maxit, reltol=1e-6),
-        irng=rnorm, lapplyfn=mclapply, Bsims=200, ...)
+        irng=rnorm, lapplyfn=lapply, Bsims=200, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
