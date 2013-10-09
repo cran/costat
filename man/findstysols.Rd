@@ -160,9 +160,9 @@ findstysols(Nsims = 100, Ncoefs = 3, tsx, tsy, sf=100, plot.it = FALSE,
   \item{spec.family}{The wavelet family that was used}
 }
 
-\references{
-Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
-Stationary Time Series using \code{costat}.
+\references{Cardinali, A. and Nason, Guy P. (2013) Costationarity of
+	Locally Stationary Time Series Using costat.
+	\emph{Journal of Statistical Software}, \bold{55}, Issue 1.
 
 Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
 time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.

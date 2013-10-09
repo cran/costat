@@ -43,9 +43,9 @@ LCTS(cfs, tsx, tsy, filter.number = 1,
 	for the combined time series. This is the result of \code{\link{TOSts}}
 	but normalized for the squared coefficient norm}
 
-\references{
-Cardinali, A. and Nason, G.P. (2012) Costationarity of Locally 
-Stationary Time Series using \code{costat}.
+\references{Cardinali, A. and Nason, Guy P. (2013) Costationarity of
+	Locally Stationary Time Series Using costat.
+	\emph{Journal of Statistical Software}, \bold{55}, Issue 1.
 
 Cardinali, A. and Nason, G.P. (2010) Costationarity of locally stationary
 time series. \emph{J. Time Series Econometrics}, \bold{2}, Issue 2, Article 1.

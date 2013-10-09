@@ -167,3 +167,7 @@
 
 2.2:	Replaced dependency on multicore to parallel (as latter package
 	has replaced former). Added this CHANGES file.
+
+2.3:	Added CITATION file to inst directory for linking/referencing
+	associated paper in Journal of Statistical Software. Also added
+	reference to that paper to all .Rd files.
