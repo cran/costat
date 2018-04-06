@@ -171,3 +171,7 @@
 2.3:	Added CITATION file to inst directory for linking/referencing
 	associated paper in Journal of Statistical Software. Also added
 	reference to that paper to all .Rd files.
+
+2.4:	Registered single anomalous S3 method that, for some reason,
+	had been missed previously. Also took opportunity to explicitly
+	include imports into NAMESPACE file and update DESCRIPTION
