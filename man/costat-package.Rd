@@ -9,16 +9,9 @@
 	plots for plotting this. Also can search for costationary
 	solutions between two time series.
 }
-\details{
-\tabular{ll}{
-Package: \tab costat\cr
-Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2012-10-24\cr
-License: \tab What license is it under?\cr
+\details{See \code{\link{findstysols}} for help page for main function.
 }
-}
-\author{Guy Nason, <g.p.nason@bristol.ac.uk>
+\author{Guy Nason, <g.nason@imperial.ac.uk>
 }
 \references{
 Cardinali, A. and Nason, Guy P. (2013) Costationarity of

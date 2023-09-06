@@ -175,3 +175,5 @@
 2.4:	Registered single anomalous S3 method that, for some reason,
 	had been missed previously. Also took opportunity to explicitly
 	include imports into NAMESPACE file and update DESCRIPTION
+
+2.4.1:	Changed email address of maintainer to reflect new institution

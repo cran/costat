@@ -22,7 +22,7 @@ for (i in 1:nl) {
 	# Check it is of right class
 	#
 
-        if (class(xy) != "csFSS") 
+        if (!inherits(xy, "csFSS")) 
             stop(paste("Object: ", l[i], " is not of class csFSS and cannot be merged"))
 	#
 	# If it is the first one then initiate data sets

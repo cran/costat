@@ -15,7 +15,7 @@ spec.family <- match.arg(spec.family)
 #
 # Check object is of required class
 #
-if (class(res) != "csFSS") 
+if (!inherits(res, "csFSS")) 
         stop("res object must be of class `csFSS`")
 #
 # Work out some dimensions of the object

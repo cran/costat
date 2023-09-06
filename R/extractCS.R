@@ -4,7 +4,7 @@ function(object, slot=c("startpar", "endpar", "convergence", "minvar",
 	coeftype=c("all", "alpha", "beta", "alphafunc", "betafunc"), solno, ...)
 {
 
-if (class(object) != "csFSS")
+if (!inherits(object, "csFSS"))
 	stop("Input object not of correct type. Should be of class csFSS")
 
 if (missing(solno))

@@ -5,7 +5,7 @@ function (l, plotclustonly=FALSE, StyPval=0.05, ...)
 # Check class of input object
 #
 
-if (class(l) != "csFSS")
+if (!inherits(l, "csFSS"))
 	stop(paste("Object: ", deparse(substitute(l)), " needs to be a `csFSS' class object"))
 
 #

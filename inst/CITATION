@@ -1,20 +1,20 @@
 citHeader("To cite costat in publications use:")
 
-citEntry(entry = "Article",
+bibentry(bibtype = "Article",
   title        = "Costationarity of Locally Stationary Time Series Using {costat}",
-  author       = personList(as.person("Alessandro Cardinali"),
-                   as.person("Guy Nason")),
+  author       = c(person("Alessandro Cardinali", role="aut", email="alessandro.cardinali@plymouth.ac.uk"),
+                   person("Guy", "Nason", role=c("aut", "cre"), email="g.nason@imperial.ac.uk")),
   journal      = "Journal of Statistical Software",
   year         = "2013",
   volume       = "55",
   number       = "1",
   pages        = "1--22",
-  url          = "http://www.jstatsoft.org/v55/i01/",
+  url          = "https://www.jstatsoft.org/v55/i01/",
+  doi		= "10.18637/jss.v055.i01"
+)
 
-  textVersion  =
+textVersion  =
   paste("Alessandro Cardinali, Guy Nason (2013).",
         "Costationarity of Locally Stationary Time Series Using costat.",
         "Journal of Statistical Software, 55(1), 1-22.",
         "URL http://www.jstatsoft.org/v55/i01/.")
-)
-
